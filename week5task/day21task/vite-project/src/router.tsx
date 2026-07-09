@@ -1,3 +1,4 @@
+//When the user visits a particular URL, which React component should be displayed
 import {
   createRootRoute,
   createRoute,
