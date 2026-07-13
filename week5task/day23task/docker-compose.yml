@@ -1,0 +1,44 @@
+version: "3.9"
+
+services:
+
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: taskdb
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+    ports:
+      - "5432:5432"
+
+  backend:
+    build: ./backend
+
+    container_name: fastapi_backend
+
+    depends_on:
+      - postgres
+
+    ports:
+      - "8000:8000"
+
+    environment:
+      DATABASE_URL: "postgresql://postgres:Lathika01@host.docker.internal:5432/taskdb"
+
+  frontend:
+    build: ./frontend
+
+    container_name: react_frontend
+
+    depends_on:
+      - backend
+
+    ports:
+      - "5173:5173"
+
+volumes:
+  postgres_data:
